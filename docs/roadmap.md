@@ -15,11 +15,10 @@
   dashboard
 - Automatic log rotation when the card fills
 - CAN error guard and loop profiling notes
+- Running on the bike from VIN power, with the bus short repaired (2026-10-05)
 
 ## Next
 
-- **Confirm on the bike** that the VIN-power freeze fix works
-  ([details](troubleshooting.md#the-dash-froze-on-vin-power))
 - **Calibrate wheel speed against GPS speed** from a ride log, replacing
   the ±5% estimate
 - **Read-only hardware change:** tie the transceiver's CTX to 3.3 V

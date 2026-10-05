@@ -55,10 +55,12 @@ stream of broken characters, each one an interrupt.
 internally; the dash never reads from serial. Output and flashing still
 work.
 
-**Status:** the bike-side short above was found at the same time, so this
-fix **still needs a ride to confirm**. If it recurs, the `loop` notes in the
-log (every 10 s) show which part of the loop is slow, or whether all of it
-is (something outside the loop stealing time).
+**Status: fixed (2026-10-05).** With this firmware change and the
+[bus short](#a-melted-wire-shorted-the-bus) repaired, the dash runs on the
+bike with live data and responsive touch. Both went in together, so which
+one cured the freeze isn't certain. If it ever recurs, the `loop` notes in
+the log (every 10 s) show which part of the loop is slow, or whether all of
+it is (something outside the loop stealing time).
 
 ## CAN fault on the dash
 
