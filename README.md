@@ -42,6 +42,38 @@ flowchart LR
   [wiring guide](docs/wiring.md#make-the-tap-truly-read-only) for the
   hardware change that guarantees it.
 
+## Compatibility
+
+| Bike | Years | Status |
+|---|---|---|
+| **KTM 690 Enduro R** | 2020 | **Built and tested** |
+| KTM 690 Enduro R / SMC R | 2019+ | Same platform and electronics; should work |
+| Husqvarna 701 Enduro / Supermoto | 2019+ era | Same platform and Bosch cornering ABS; should work, untested |
+| GasGas ES 700 / SM 700 | 2022+ | Built on the same 690 platform; should work, untested |
+| KTM 690 Enduro / SMC, older generation | pre-2019 | Different electronics (no IMU or cornering ABS); CAN signals probably differ, untested |
+
+"Should work" means the hardware and logging will work and the
+[CAN decoding](docs/can-signals.md) very likely matches; any differences
+show up on the CAN sniffer pages and are a small code change.
+
+**Diagnostic connector.** The tap is the 6-pin diagnostic connector under
+the seat, near the battery's negative terminal:
+
+- **2019–2020 (pre-Euro 5):** white connector (the tested bike).
+- **2021+ (Euro 5):** most markets moved to a red connector with a
+  different pin layout for the CAN wires. North American bikes may have kept
+  the white one, so check the bike rather than going by year.
+
+Either works: the [wiring guide](docs/wiring.md#finding-the-wires-with-a-meter)
+finds the CAN pair, ground and switched 12 V with a meter, so wire colours
+and pin positions don't need to match the tested bike.
+
+**The offroad ABS dongle isn't required.** The tested bike splices into the
+dongle's wires because one was fitted. Without one, splice into the bike
+side of the diagnostic connector, or build a plug-in harness with the
+mating 6-pin connector (Sumitomo MT 090 series) so nothing on the bike gets
+cut.
+
 ## Screenshots
 
 From a ride on the bike.

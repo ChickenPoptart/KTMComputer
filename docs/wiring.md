@@ -1,8 +1,10 @@
 # Wiring
 
 Every wire in the build. Wire colours on the bike side are from this
-bike's offroad ABS dongle; **confirm yours with a meter** before cutting
-anything (see [Finding the wires](#finding-the-wires-with-a-meter)).
+bike's offroad ABS dongle (2020, white pre-Euro 5 diagnostic connector);
+**confirm yours with a meter** before cutting anything (see
+[Finding the wires](#finding-the-wires-with-a-meter)). Other model years
+and connectors are covered under [Compatibility](../README.md#compatibility).
 
 ```mermaid
 flowchart LR
