@@ -55,6 +55,7 @@ flowchart LR
 | [Firmware](docs/firmware.md) | Code layout, tests, settings you might change |
 | [Troubleshooting](docs/troubleshooting.md) | Problems hit during the build and how they were found |
 | [Roadmap](docs/roadmap.md) | What's done and what's next |
+| [Case](hardware/case/README.md) | 3D-printable case (STL) |
 | [Captures](captures/README.md) | Raw CAN logs from the bike |
 
 ## Quick start (firmware)

@@ -46,7 +46,7 @@ does.
 
 | Part | Why |
 |---|---|
-| 3D-printed case (PETG or ASA, not PLA) | PLA warps in the sun. The GPS works through 1.5 mm of PETG |
+| 3D-printed case (PETG or ASA, not PLA): [`hardware/case`](../hardware/case/README.md) | PLA warps in the sun. The GPS works through 1.5 mm of PETG |
 | Handlebar mount (e.g. RAM 1" ball with an AMPS plate) | Quick removal when it rains |
 | BMP280 barometer | Smoother elevation than GPS alone |
 | Magnetometer | Compass heading while stopped (hard to calibrate near the frame) |

@@ -99,7 +99,8 @@ blue/black, CAN-L blue/white, ground brown, 12 V tan.
 
 ## 8. Mounting
 
-- Case: PETG or ASA. Leave the SD slot and USB port reachable.
+- Case: [`hardware/case/cyd-case.stl`](../hardware/case/README.md), printed in
+  PETG or ASA. Leave the SD slot and USB port reachable.
 - GPS antenna up, under plastic, away from metal.
 - Strain relief on every cable where it enters the case and at every splice.
 - In rain: a freezer bag over the case works; the touchscreen works
