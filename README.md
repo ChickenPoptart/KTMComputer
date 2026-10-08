@@ -42,6 +42,21 @@ flowchart LR
   [wiring guide](docs/wiring.md#make-the-tap-truly-read-only) for the
   hardware change that guarantees it.
 
+## Screenshots
+
+From a ride on the bike.
+
+| | |
+|---|---|
+| ![Dashboard: neutral, 5,739 rpm on the green tach bar, coolant 213 °F, 0 mph, heading NE, elevation 4,602 ft, 12 satellites, 1:53 PM](docs/images/dashboard.jpg) | ![Trip page: 1.7 mi, max 55 mph, ride time 8:13, moving time 4:57, max 8,894 rpm, max coolant 217 °F](docs/images/trip.jpg) |
+| **Dashboard** | **Trip** |
+| ![Elevation chart over the ride, 4,543 to 4,643 ft](docs/images/elevation-chart.jpg) | ![Speed chart: wheel speed with GPS speed overlaid, up to 54 mph](docs/images/speed-chart.jpg) |
+| **Elevation** | **Speed** (wheel, with GPS in green) |
+| ![RPM zones: idle 62%, green 35%, shift 1%, top end 0%](docs/images/rpm-zones.jpg) | ![Coolant chart warming from 122 °F to 217 °F](docs/images/coolant-chart.jpg) |
+| **RPM zones** | **Coolant** |
+| ![CAN sniffer page: 18 IDs at 860 frames/s with live bytes, recording to can_0027.log, no drops](docs/images/can-sniffer.jpg) | |
+| **CAN sniffer** | |
+
 ## Documentation
 
 | Doc | What's in it |

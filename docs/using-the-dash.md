@@ -16,15 +16,35 @@ Tap to cycle in this order:
 
 1. **Dashboard:** tach bar, RPM, shift light, gear, speed, coolant, GPS
    heading, elevation, satellites, time.
+
+   ![Dashboard](images/dashboard.jpg)
+
 2. **Trip:** distance, max speed, ride time, moving time, max RPM, max
    coolant, climb, descent.
+
+   ![Trip page](images/trip.jpg)
+
 3. **Elevation** chart (GPS).
+
+   ![Elevation chart](images/elevation-chart.jpg)
+
 4. **Speed** chart: wheel speed (white) with GPS speed (green).
+
+   ![Speed chart](images/speed-chart.jpg)
+
 5. **RPM zones:** time and share in idle, green, shift and top end.
+
+   ![RPM zones](images/rpm-zones.jpg)
+
 6. **Coolant** chart.
+
+   ![Coolant chart](images/coolant-chart.jpg)
+
 7. **CAN pages:** every CAN ID with its rate and bytes (yellow = changed
    in the last second, white = has changed, grey = never changed), plus bus
    state and SD recording status.
+
+   ![CAN sniffer page](images/can-sniffer.jpg)
 
 ## Dashboard
 
