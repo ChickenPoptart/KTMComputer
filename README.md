@@ -6,6 +6,8 @@ factory CAN bus (read-only) and a GPS module, shows a live dash on a 2.8"
 touchscreen, keeps trip stats and charts, and logs everything to a MicroSD
 card.
 
+![The dash on the bench: tach bar, gear, coolant, heading, elevation and GPS satellites, in a 3D-printed case with the GPS and wiring behind it](docs/images/dash-on-bench.jpg)
+
 ```mermaid
 flowchart LR
     subgraph Bike
@@ -72,3 +74,7 @@ The starting point for the CAN decoding is
 [blalor/ktm-can](https://github.com/blalor/ktm-can), also from a 2020 690
 Enduro R, built on Dan Plastina's SuperDuke 1290 work on ADVrider. This
 project confirmed and extended it from its own ride logs.
+
+## License
+
+[MIT](LICENSE): use it, change it, share it; keep the copyright notice.
