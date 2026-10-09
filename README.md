@@ -125,4 +125,26 @@ project confirmed and extended it from its own ride logs.
 
 ## License
 
-[MIT](LICENSE): use it, change it, share it; keep the copyright notice.
+**Free for personal and other noncommercial use.**
+
+- **Code** (`src/`, `lib/`, `test/`, `platformio.ini`):
+  [PolyForm Noncommercial 1.0.0](LICENSE)
+- **Docs, images, 3D files and captures:**
+  [CC BY-NC-SA 4.0](LICENSE-docs.md): credit this project and share
+  adapted versions under the same terms
+
+Build one for your own bike, modify it, share it with friends and
+clubs: all fine.
+
+### Commercial use
+
+Selling kits or finished units, including this in a product, or charging to
+install it needs a commercial license. To ask, open an issue using the
+[**Commercial license request**](https://github.com/ChickenPoptart/KTMComputer/issues/new?template=commercial-license.md)
+template.
+
+### Earlier versions
+
+Versions published before 9 October 2026 (up to commit `f2c9ddf`) were
+released under the MIT License, and anyone who got a copy of those versions
+keeps the MIT terms for them.
