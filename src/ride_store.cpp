@@ -1,6 +1,6 @@
 #include "ride_store.h"
 
-#include <SD.h>
+#include "sd_card.h"
 #include "ride_history.h"
 #include "sd_log.h"
 
@@ -28,7 +28,7 @@ bool rideSave(const RideRecord& r) {
     RideFileHeader h = {RIDE_MAGIC, RIDE_VERSION, 0, sizeof(RideRecord)};
 
     sdLock();
-    File f = SD.open(name, FILE_WRITE);
+    File f = CARD.open(name, FILE_WRITE);
     bool ok = f && f.write((const uint8_t*)&h, sizeof(h)) == sizeof(h) &&
               f.write((const uint8_t*)&r, sizeof(r)) == sizeof(r);
     if (f) f.close();
@@ -43,7 +43,7 @@ bool rideLoad(int number, RideRecord& r) {
     RideFileHeader h;
 
     sdLock();
-    File f = SD.open(name, FILE_READ);
+    File f = CARD.open(name, FILE_READ);
     bool ok = f && f.read((uint8_t*)&h, sizeof(h)) == sizeof(h) && h.magic == RIDE_MAGIC &&
               h.version == RIDE_VERSION && h.recordSize == sizeof(RideRecord) &&
               f.read((uint8_t*)&r, sizeof(r)) == sizeof(r);
@@ -56,7 +56,7 @@ int rideList(int* numbers, int cap) {
     if (sdLogNumber() < 0) return 0;
     int count = 0;
     sdLock();
-    File dir = SD.open("/rides");
+    File dir = CARD.open("/rides");
     for (File f = dir.openNextFile(); f && count < cap; f = dir.openNextFile()) {
         int n = f.isDirectory() ? -1 : rideNumberFromName(f.name());
         if (n >= 0) numbers[count++] = n;

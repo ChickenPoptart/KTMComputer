@@ -1,18 +1,27 @@
 #include "sd_log.h"
 
 #include <Arduino.h>
-#include <SD.h>
+#include "sd_card.h"
 #include <SPI.h>
 #include <freertos/semphr.h>
 #include <freertos/stream_buffer.h>
 #include <esp_timer.h>
 #include "log_rotation.h"
 
+#ifdef BOARD_W5
+// Waveshare 5": SD mode, 1-bit (see sd_card.h). The caller holds the
+// card's D3 line (CH422G EXIO4) high before sdLogBegin().
+static const int SD_CLK = 12;
+static const int SD_CMD = 11;
+static const int SD_D0 = 13;
+#else
 // CYD MicroSD slot, on the VSPI bus
 static const int SD_SCK = 18;
 static const int SD_MISO = 19;
 static const int SD_MOSI = 23;
 static const int SD_CS = 5;
+static SPIClass sdSpi(VSPI);
+#endif
 static const uint32_t SD_SPI_HZ = 20000000;
 
 // SD cards can stall for a few hundred ms during internal housekeeping.
@@ -26,7 +35,6 @@ static const unsigned long FLUSH_MS = 1000;
 // hundreds of hours per card it won't be reached.
 static const int MAX_LOGS = 2048;
 
-static SPIClass sdSpi(VSPI);
 static File logFile;
 static StreamBufferHandle_t queue = nullptr;
 static char fileName[16] = "";
@@ -62,7 +70,7 @@ static void writerTask(void*) {
 // Lists the ride logs on the card: their numbers and sizes.
 static int listLogs(int* numbers, uint32_t* sizes, int cap) {
     int count = 0;
-    File root = SD.open("/");
+    File root = CARD.open("/");
     for (File f = root.openNextFile(); f && count < cap; f = root.openNextFile()) {
         int n = f.isDirectory() ? -1 : logNumberFromName(f.name());
         if (n >= 0) {
@@ -79,20 +87,20 @@ static int listLogs(int* numbers, uint32_t* sizes, int cap) {
 // Deletes the oldest logs until the card has enough free space. Runs at
 // boot, before recording starts, so it never competes with logging.
 static int freeSpace(int* numbers, uint32_t* sizes, int count) {
-    uint64_t total = SD.totalBytes();
-    uint64_t freeBytes = total - SD.usedBytes();
+    uint64_t total = CARD.totalBytes();
+    uint64_t freeBytes = total - CARD.usedBytes();
     int victim;
     while ((victim = logToDelete(numbers, count, -1, freeBytes, total)) >= 0) {
         char name[24];
         snprintf(name, sizeof(name), "/can_%04d.log", victim);
         for (int i = 0; i < count; i++) {
             if (numbers[i] != victim) continue;
-            if (SD.remove(name)) {
+            if (CARD.remove(name)) {
                 Serial.printf("# Card low on space: deleted %s\n", name);
                 freeBytes += sizes[i];
             }
             snprintf(name, sizeof(name), "/rides/ride_%04d.bin", victim);
-            SD.remove(name);  // that ride's history goes with its log
+            CARD.remove(name);  // that ride's history goes with its log
             numbers[i] = numbers[--count];  // drop it from the list either way
             sizes[i] = sizes[count];
             break;
@@ -102,8 +110,13 @@ static int freeSpace(int* numbers, uint32_t* sizes, int count) {
 }
 
 bool sdLogBegin() {
+#ifdef BOARD_W5
+    if (!SD_MMC.setPins(SD_CLK, SD_CMD, SD_D0)) return false;
+    if (!SD_MMC.begin("/sdcard", true)) return false;  // true: 1-bit mode
+#else
     sdSpi.begin(SD_SCK, SD_MISO, SD_MOSI, SD_CS);
     if (!SD.begin(SD_CS, sdSpi, SD_SPI_HZ)) return false;
+#endif
 
     static int numbers[MAX_LOGS];
     static uint32_t sizes[MAX_LOGS];
@@ -112,9 +125,9 @@ bool sdLogBegin() {
 
     logNumber = nextLogNumber(numbers, count);
     snprintf(fileName, sizeof(fileName), "/can_%04d.log", logNumber);
-    if (!SD.exists("/rides")) SD.mkdir("/rides");
+    if (!CARD.exists("/rides")) CARD.mkdir("/rides");
     cardMutex = xSemaphoreCreateMutex();
-    logFile = SD.open(fileName, FILE_WRITE);
+    logFile = CARD.open(fileName, FILE_WRITE);
     if (!logFile) return false;
 
     queue = xStreamBufferCreate(QUEUE_BYTES, WRITE_CHUNK / 4);

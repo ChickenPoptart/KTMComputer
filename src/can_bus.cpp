@@ -7,9 +7,15 @@
 #include "candump_format.h"
 #include "sd_log.h"
 
+#ifdef BOARD_W5
+// Waveshare 5": onboard TJA1051T/3, screw terminal pins 7 (CAN-L) and 8 (CAN-H)
+static const gpio_num_t CAN_TX_PIN = GPIO_NUM_15;
+static const gpio_num_t CAN_RX_PIN = GPIO_NUM_16;
+#else
 // CYD CN1 connector -> SN65HVD230
 static const gpio_num_t CAN_TX_PIN = GPIO_NUM_22;
 static const gpio_num_t CAN_RX_PIN = GPIO_NUM_27;
+#endif
 
 // Deep enough to ride out a full-screen redraw at a busy bus's frame rate
 static const int RX_QUEUE_LEN = 256;
