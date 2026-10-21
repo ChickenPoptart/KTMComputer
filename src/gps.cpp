@@ -6,9 +6,14 @@
 #include "candump_format.h"
 #include "ride_clock.h"
 #include "sd_log.h"
+#ifdef BOARD_W5
+#include "w5/sc16is750.h"
+#endif
 
-static const int GPS_RX_PIN = 35;  // input-only pin, fine for receive
 static const uint32_t GPS_BAUD = 9600;
+#ifndef BOARD_W5
+static const int GPS_RX_PIN = 35;  // input-only pin, fine for receive
+#endif
 
 static TinyGPSPlus parser;
 
@@ -32,17 +37,35 @@ static void collect(char c) {
     else sentenceLen = 0;  // garbage or a broken line: wait for the next $
 }
 
+static void feed(char c) {
+    parser.encode(c);
+    collect(c);
+}
+
+#ifdef BOARD_W5
+// Waveshare 5": through the SC16IS750 I2C-to-UART bridge
+static bool bridgeOk = false;
+
+void gpsBegin() {
+    bridgeOk = sc16Begin(GPS_BAUD);
+    Serial.printf("# GPS bridge %s\n", bridgeOk ? "ok (SC16IS750 at 0x4D)" : "NOT RESPONDING");
+}
+
+void gpsPoll() {
+    if (!bridgeOk) return;
+    uint8_t buf[64];
+    size_t n = sc16Read(buf, sizeof(buf));
+    for (size_t i = 0; i < n; i++) feed((char)buf[i]);
+}
+#else
 void gpsBegin() {
     Serial2.begin(GPS_BAUD, SERIAL_8N1, GPS_RX_PIN, -1);
 }
 
 void gpsPoll() {
-    while (Serial2.available() > 0) {
-        char c = Serial2.read();
-        parser.encode(c);
-        collect(c);
-    }
+    while (Serial2.available() > 0) feed(Serial2.read());
 }
+#endif
 
 bool gpsUtcTime(time_t& out) {
     // Before a fix the module reports a placeholder date (1980 or 2080)

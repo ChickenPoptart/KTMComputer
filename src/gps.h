@@ -4,8 +4,9 @@
 #include <time.h>
 #include "gps_view.h"
 
-// u-blox NEO-M8N on UART2. Only its TX is wired (to IO35 on the P3
-// connector), so it runs at the factory default: 9600 baud NMEA, 1 Hz.
+// u-blox NEO-M8N at its factory default, 9600 baud NMEA, 1 Hz.
+//   CYD: UART2, GPS TX on IO35 (P3 connector)
+//   Waveshare 5": through the SC16IS750 I2C-to-UART bridge
 void gpsBegin();
 
 // Feeds whatever bytes have arrived to the NMEA parser, and logs each
